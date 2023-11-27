@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { io } from 'socket.io-client'
 import { Dna } from 'react-loader-spinner';
+import Image from 'next/image'
 const socket = io('http://localhost:3000', {
     autoConnect: false
 });
@@ -52,17 +53,29 @@ const Chat = (): JSX.Element => {
     }
 
     return (
-        <div className='w-screen h-screen flex flex-col justify-between items-center bg-slate-800'>
-            <span className='text-4xl mt-10'>My Personnal Assistant</span>
-            <div className='text-white bg-black rounded-2xl w-full h-full mt-10 mr-10 ml-10 max-w-3xl flex flex-col justify-stretch items-center overflow-scroll'>
+        <div className='font-poppins w-screen h-screen flex flex-col justify-between items-center bg-gradient-to-b from-black to-blue-950 px-10'>
+            <span className='text-4xl mt-10 font-extralight w-full text-center'>My Personnal Assistant</span>
+            <div className='text-white bg-slate-900 shadow-lg rounded-2xl w-full h-full mt-10  max-w-3xl flex flex-col justify-stretch items-center overflow-scroll'>
                 {conversation.map(({ from, message }: Message, i: number) => {
                     return from === 'User'
                         ? (
-                            <div key={i} className='bg-slate-700 p-4 w-full border-b border-b-slate-800 '>
-                                {message}
+                            <div key={i} className='bg-slate-800 p-4 w-full border-b border-b-slate-800 '>
+                                <div className='flex justify-start gap-2 items-center mb-3'>
+                                    <Image src='/djovap.com.png' width={30} height={30} alt='djovap logo' />
+                                    <div className='text-xs text-slate-400'>{from}</div>
+                                </div>
+                                <div>{message}</div>
                             </div>
                         ) : (
-                            <div key={i} className='p-4'>{message}</div>
+                            <div key={i} className=' p-4 w-full '>
+                                <div className='flex justify-end gap-2 items-center mb-3'>
+                                    <div className='text-xs text-slate-400'>{from}</div>
+                                    <div className='rounded-full overflow-hidden'>
+                                        <Image src='/llama2-logo.png' width={30} height={30} alt='djovap logo' />
+                                    </div>
+                                </div>
+                                <div>{message}</div>
+                            </div>
                         )
 
                 })}
@@ -79,7 +92,7 @@ const Chat = (): JSX.Element => {
             </div>
 
 
-            <div className='flex gap-4 p-10 w-10/12 max-w-3xl'>
+            <div className='flex gap-4 py-10 w-full max-w-3xl'>
                 <input
                     type="text"
                     placeholder='Ask me a question'
@@ -90,7 +103,7 @@ const Chat = (): JSX.Element => {
                 />
                 <button
                     onClick={() => sendPrompt()}
-                    className='bg-slate-600 p-4 px-6 rounded-2xl'
+                    className='bg-black text-slate-400 p-4 px-6 rounded-2xl'
                 >
                     Go
                 </button>
